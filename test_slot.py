@@ -9,7 +9,7 @@ class BackQThread(QThread):
 
     def run(self):
         while True:
-            # 获得当前系统时间
+            # 获得当前系统时间，测试用
             data = QDateTime.currentDateTime()
             # 设置时间显示格式
             curr_time = data.toString('yyyy-MM-dd hh:mm:ss dddd')
