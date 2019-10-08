@@ -37,60 +37,62 @@ class EnvironVars:
     def set_app_env(self, app_path):
         """配置应用的环境变量，需要添加到Path"""
         # 向Path添加值
-        try:
-            win32api.RegSetValueEx(self.key,
-                                   "Path",
-                                   0,
-                                   win32con.REG_SZ,
-                                   "{}{};".format(self.path_val, app_path)
-                                   )
-            print('变量配置成功!')
-        except Exception as e:
-            print(e)
+        if app_path:
+            try:
+                win32api.RegSetValueEx(self.key,
+                                       "Path",
+                                       0,
+                                       win32con.REG_SZ,
+                                       "{}{};".format(self.path_val, app_path)
+                                       )
+                print('变量配置成功!')
+            except Exception as e:
+                print(e)
 
     def set_file_env(self, file_path):
         """配置单文件形式的配置文件，不需要添加到Path"""
-        # 获取文件名
-        try:
-            file_name = os.path.basename(file_path)
-            file_name_upper = os.path.splitext(file_name)[0].upper()
-            # 格式化路径
-            file_path = os.path.abspath(file_path)
-            win32api.RegSetValueEx(self.key,
-                                   file_name_upper,
-                                   0,
-                                   win32con.REG_SZ,
-                                   file_path
-                                   )
-            print('\n配置文件环境变量配置成功！\n\n')
-        except Exception as e:
-            print(e)
+        if file_path:
+            try:
+                # 获取文件名
+                file_name = os.path.basename(file_path)
+                file_name_upper = os.path.splitext(file_name)[0].upper()
+                # 格式化路径
+                file_path = os.path.abspath(file_path)
+                win32api.RegSetValueEx(self.key,
+                                       file_name_upper,
+                                       0,
+                                       win32con.REG_SZ,
+                                       file_path
+                                       )
+                print('\n配置文件环境变量配置成功！\n\n')
+            except Exception as e:
+                print(e)
 
-    def check_var_exist(self, app_list=None, file_list=None):
+    def check_var_exist(self, app=None, file=None):
         """
         检测环境变量是否已存在，
         如果path为文件夹，配置内容为程序，需判断path中是否存在该变量；
         如果path为文件，配置内容为文件，需判断文件名大写的变量是否存在，
-        若存在则设置对应字典的值为true，不存在为false
+        若存在返回true，不存在返回false
         """
-        app_dict = {}
-        file_dict = {}
-        if file_list:
-            for file in file_list:
-                file_name = os.path.basename(file)
-                file_name_upper = os.path.splitext(file_name)[0].upper()
+        is_exist = False
+        if file:
+            file_name = os.path.basename(file)
+            file_name_upper = os.path.splitext(file_name)[0].upper()
+            try:
                 file_var = win32api.RegQueryValueEx(self.key, file_name_upper)[0]
-                file_dict[file] = True if file_var and file_var == file else False
-        if app_list:
-            for app in app_list:
-                if self.check_dict[app]:
-                    code = None
-                    try:
-                        code = subprocess.call(self.check_dict[app], shell=True)
-                    except:
-                        pass
-                    finally:
-                        # 暂时发现执行这几个查询版本号成功的code为0
-                        app_dict[app] = True if code == 0 else False
-        return app_dict, file_dict
+                if file_var and file_var == file:
+                    is_exist = True
+            except:
+                pass
+        if app:
+            if self.check_dict[app]:
+                try:
+                    code = subprocess.call(self.check_dict[app], shell=True)
+                    # 暂时发现执行这几个查询版本号成功的code为0
+                    if code == 0:
+                        is_exist = True
+                except:
+                    pass
+        return is_exist
 

@@ -8,7 +8,7 @@
 
 from PyQt5 import QtCore, QtGui, QtWidgets
 from PyQt5.QtWidgets import QFileDialog, QMessageBox
-from envir_vars import test_slot
+from envir_vars import envir_functions as ef
 import os
 
 
@@ -191,14 +191,11 @@ class Ui_Form(QtWidgets.QWidget):
         # 按钮响应事件
         self.buttonBox.accepted.connect(self.check_file_param)
         self.buttonBox.rejected.connect(self.check_button)
-
-        self.thread_ = test_slot.BackQThread()
-        self.thread_.update_date.connect(self.print_log)
+        # self.msg = None
+        # self.thread_ = test_slot.BackQThread(self.msg)
+        # self.thread_.update_date.connect(self.print_log)
 
     def print_log(self, msg):
-        self.output_area.append(msg)
-
-    def update_text(self, msg):
         self.output_area.append(msg)
 
     def open_file(self):
@@ -272,7 +269,9 @@ class Ui_Form(QtWidgets.QWidget):
             msg = "准备就绪，确定开始配置？"
             question = QMessageBox.question(self, "提醒", msg, QMessageBox.Yes)
             if question == QMessageBox.Yes:
-                self.thread_.start()
+                self.msg = ef.set_var(app_list=self.exe_list, file_list=self.file_list)
+                # self.thread_.start()
+                self.print_log("{}已配置完毕".format(str(self.msg)))
 
     def retranslateUi(self, Form):
         _translate = QtCore.QCoreApplication.translate

@@ -7,6 +7,10 @@ class BackQThread(QThread):
     # 自定义信号为str参数类型
     update_date = pyqtSignal(str)
 
+    def __init__(self, msg):
+        super().__init__()
+        self.msg = msg
+
     def run(self):
         while True:
             # 获得当前系统时间
@@ -14,7 +18,7 @@ class BackQThread(QThread):
             # 设置时间显示格式
             curr_time = data.toString('yyyy-MM-dd hh:mm:ss dddd')
             # 发射信号
-            self.update_date.emit(str(curr_time))
+            self.update_date.emit(str(self.msg))
             # 睡眠一秒
             time.sleep(1)
 

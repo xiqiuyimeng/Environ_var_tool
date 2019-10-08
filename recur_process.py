@@ -1,7 +1,8 @@
 # -*- coding: utf-8 -*-
+from gevent import monkey;monkey.patch_all()
 import os
 from multiprocessing import Pool
-
+import gevent
 from envir_vars import decorators as dc
 from envir_vars import dir_file_settings as df
 from envir_vars import list_tools as lt
@@ -28,6 +29,7 @@ class FindPath:
                             continue
                         else:
                             self.get_target_path(tmp_path)
+                            print('遍历')
                     elif os.path.isfile(tmp_path):
                         for key in self.target_path.keys():
                             pattern = eval('df.PATTERN_{}'.format(key.upper()))
@@ -42,8 +44,10 @@ class FindPath:
     def file_process(self, file_paths):
         """如果是文件就进行匹配，是文件夹准备遍历"""
         path_dict = {}
+        coroutines = []
         for file_path in file_paths:
             if os.path.isdir(file_path):
+                # coroutines.append(gevent.spawn(self.get_target_path, file_path))
                 self.get_target_path(file_path)
                 if self.target_path:
                     path_dict = self.target_path
@@ -52,6 +56,7 @@ class FindPath:
                     pattern = eval('df.PATTERN_{}'.format(key.upper()))
                     if df.match_path(file_path, pattern):
                         path_dict[key].append(os.path.dirname(file_path))
+        # gevent.joinall(coroutines)
         print('进程:{}的遍历结果是{}'.format(os.getpid(), path_dict))
         return path_dict
 
@@ -81,12 +86,11 @@ class FindPath:
 
 
 @dc.times_used("main函数")
-def main():
+def main(path_dict):
     path_root_list = pt.get_disk_partitions()
     print("path_root==>{}".format(path_root_list))
-    path_dict = {'Java': [], 'Python': []}
     find_path = FindPath(path_dict)
-    results = find_path.start_process(path_root_list)
+    results = find_path.start_process(('C:\\',))
     for k in path_dict.keys():
         for result in results:
             if result.get()[k]:
@@ -94,7 +98,9 @@ def main():
         # 去重
         path_dict[k] = list(set(path_dict[k]))
     print("最终结果是：{}".format(path_dict))
+    return path_dict
 
 
 if __name__ == '__main__':
-    main()
+    path_ = {'Java': []}
+    main(path_)

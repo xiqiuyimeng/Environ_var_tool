@@ -2,7 +2,7 @@
 from envir_vars import decorators as ds
 from envir_vars import envir
 from PyQt5 import QtWidgets
-from PyQt5 import sip
+import PyQt5.sip
 import sys
 
 _author_ = 'luwt'

@@ -1,6 +1,5 @@
 # -*- coding: utf-8 -*-
 import psutil
-import itertools
 from decorator_demo import decorator_demo as dd
 _author_ = 'luwt'
 _date_ = '2018/11/6 23:35'
