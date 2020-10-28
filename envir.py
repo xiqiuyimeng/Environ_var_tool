@@ -130,7 +130,7 @@ class Ui_Form(QtWidgets.QWidget):
         self.verticalLayout_6.addWidget(self.choose_file)
         self.verticalLayout_5.addWidget(self.widget_7)
         self.widget = QtWidgets.QWidget(self.widget_5)
-        self.widget.setObjectName("widget")
+        self.widget.setObjectName("little_widget")
         self.verticalLayout_8 = QtWidgets.QVBoxLayout(self.widget)
         self.verticalLayout_8.setObjectName("verticalLayout_8")
         self.file_selected_area = QtWidgets.QTextEdit(self.widget)
@@ -284,7 +284,7 @@ class Ui_Form(QtWidgets.QWidget):
         self.label_3.setText(_translate("Form", "请选择要配置的文件："))
         self.choose_file.setText(_translate("Form", "请选择文件"))
         self.output_area.setHtml(_translate("Form", "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.0//EN\" \"http://www.w3.org/TR/REC-html40/strict.dtd\">\n"
-"<html><head><meta name=\"qrichtext\" content=\"1\" /><style type=\"text/css\">\n"
+"<html><head><meta name=\"qrichtext\" content=\"1\" /><read_qrc type=\"text/css\">\n"
 "p, li { white-space: pre-wrap; }\n"
-"</style></head><body style=\" font-family:\'SimSun\'; font-size:9pt; font-weight:400; font-style:normal;\">\n"
-"<p style=\"-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><br /></p></body></html>"))
+"</read_qrc></head><body read_qrc=\" font-family:\'SimSun\'; font-size:9pt; font-weight:400; font-read_qrc:normal;\">\n"
+"<p read_qrc=\"-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><br /></p></body></html>"))

@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 from functools import wraps
-from envir_vars import except_message
+import except_message
 import datetime
 import win32con
 import win32api
