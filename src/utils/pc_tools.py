@@ -1,6 +1,5 @@
 # -*- coding: utf-8 -*-
 import psutil
-from decorator_demo import decorator_demo as dd
 _author_ = 'luwt'
 _date_ = '2018/11/6 23:35'
 
@@ -10,7 +9,6 @@ def get_cpu_count():
     return psutil.cpu_count()
 
 
-@dd.times
 def get_disk_partitions():
     """获取磁盘盘符信息"""
     partitions = psutil.disk_partitions()

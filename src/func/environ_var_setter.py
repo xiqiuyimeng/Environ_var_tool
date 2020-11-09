@@ -27,7 +27,7 @@ class EnvironVars:
         """备份path变量值"""
         now = datetime.now()
         # 当前路径，备份文件将存于此
-        curr_path = os.path.abspath(".")
+        curr_path = os.path.abspath("../..")
         with open("{}/原变量值.txt".format(curr_path), "a") as f:
             f.write('☆☆☆☆☆\n原变量值为：\n' + self.path_val +
                     '\n如系统异常请将原变量值复制回path变量处\n' +
